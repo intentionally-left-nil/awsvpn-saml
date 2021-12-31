@@ -13,24 +13,24 @@ source=(
   'git+https://github.com/samm-git/aws-vpn-client'
   'skip-broken-tests.patch'
   'main.go'
+  'awsvpn'
   'LICENSE'
 )
-
 sha256sums=('SKIP'
             'SKIP'
             'f50f3a29c50fc1366e69c2c1e6a331459bfba70d76397e4f2b19e42dac8af9f1'
-            '097a6ed0e31bc0de16a18cc3fd9bc9825104478c8cb2b130ebb8f83ab6517970'
+            'a67aaeef4ac97865d50c9c5e3e575f810637453cead738bfd2d844eda0d656c2'
+            'eabcb2119489170a4011db67a5ce15970f72dba563139bb2a95397680a904b44'
             '4dc942c03bc14dc28fe9cb6d66f67c6374735a965ea1291916d91cb28d7e6fe5')
-
 
 # Taken from openvpn-git's PKGBUILD
 pkgver() {
-  cd "${srcdir}/openvpn" || return
+  cd "${srcdir}/openvpn"
 
   if GITTAG="$(git describe --abbrev=0 --tags 2>/dev/null)"; then
     printf '%s.r%s.g%s' \
-      "$(sed -e "s/^${pkgname%%-git}//" -e 's/^[-_/a-zA-Z]\+//' -e 's/[-_+]/./g' <<< ${GITTAG})" \
-      "$(git rev-list --count ${GITTAG}..)" \
+      "$(sed -e "s/^${pkgname%%-git}//" -e 's/^[-_/a-zA-Z]\+//' -e 's/[-_+]/./g' <<< "${GITTAG}")" \
+      "$(git rev-list --count "${GITTAG}"..)" \
       "$(git rev-parse --short HEAD)"
   else
     printf '0.r%s.g%s' \
@@ -40,7 +40,7 @@ pkgver() {
 }
 
 prepare() {
-  cd "${srcdir}/openvpn" || return
+  cd "${srcdir}/openvpn"
   # https://www.mail-archive.com/openvpn-devel@lists.sourceforge.net/msg19302.html
   sed -i '/^CONFIGURE_DEFINES=/s/set/env/g' configure.ac
   patch -Np1 < "${srcdir}/aws-vpn-client/openvpn-v2.5.1-aws.patch"
@@ -50,7 +50,7 @@ prepare() {
 
 build() { 
   mkdir -p "${srcdir}/build"
-  cd "${srcdir}/build" || return
+  cd "${srcdir}/build"
   "${srcdir}"/openvpn/configure \
     --prefix="/usr/share/${pkgname}" \
     --sbindir="/usr/share/${pkgname}/bin" \
@@ -64,16 +64,17 @@ build() {
 }
 
 check() {
-  cd "${srcdir}/build" || return
+  cd "${srcdir}/build"
 
   make check
 }
 
 package() {
-  cd "${srcdir}/build" || return
+  cd "${srcdir}/build"
   # install openvpn to /usr/share/awsvpn-saml/bin/
   make DESTDIR="${pkgdir}" install
-  install -D -m0755 ./awsvpnserver "${pkgdir}/usr/share/${pkgname}/bin"
+  install -D -m0755 ./awsvpnserver "${pkgdir}/usr/share/${pkgname}/bin/awsvpnserver"
+  install -D -m0755 "${srcdir}/awsvpn" "${pkgdir}/usr/bin/awsvpn"
 
   # Add the licenses
   install -d -m0644 "${pkgdir}/usr/share/licenses/${pkgname}"

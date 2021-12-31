@@ -4,3 +4,4 @@ openvpn/
 src/
 pkg/
 *.zst
+/main
