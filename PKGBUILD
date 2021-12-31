@@ -12,12 +12,14 @@ source=(
   'git+https://github.com/OpenVPN/openvpn.git#branch=release/2.5'
   'git+https://github.com/samm-git/aws-vpn-client'
   'skip-broken-tests.patch'
+  'main.go'
   'LICENSE'
 )
 
 sha256sums=('SKIP'
             'SKIP'
             'f50f3a29c50fc1366e69c2c1e6a331459bfba70d76397e4f2b19e42dac8af9f1'
+            '097a6ed0e31bc0de16a18cc3fd9bc9825104478c8cb2b130ebb8f83ab6517970'
             '4dc942c03bc14dc28fe9cb6d66f67c6374735a965ea1291916d91cb28d7e6fe5')
 
 
@@ -57,6 +59,8 @@ build() {
     --enable-systemd \
     --enable-x509-alt-username
   make
+
+  go build -o "${srcdir}/build/awsvpnserver" "${srcdir}/main.go"
 }
 
 check() {
@@ -69,6 +73,7 @@ package() {
   cd "${srcdir}/build" || return
   # install openvpn to /usr/share/awsvpn-saml/bin/
   make DESTDIR="${pkgdir}" install
+  install -D -m0755 ./awsvpnserver "${pkgdir}/usr/share/${pkgname}/bin"
 
   # Add the licenses
   install -d -m0644 "${pkgdir}/usr/share/licenses/${pkgname}"
