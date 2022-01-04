@@ -1,0 +1,13 @@
+diff --git a/tests/Makefile.am b/tests/Makefile.am
+index 2087dd0..11c4377 100644
+--- a/tests/Makefile.am
++++ b/tests/Makefile.am
+@@ -16,7 +16,7 @@ SUBDIRS = unit_tests
+ 
+ test_scripts = t_client.sh
+ if ENABLE_CRYPTO
+-test_scripts += t_lpback.sh t_cltsrv.sh
++test_scripts += t_lpback.sh
+ endif
+ 
+ TESTS_ENVIRONMENT = top_srcdir="$(top_srcdir)"

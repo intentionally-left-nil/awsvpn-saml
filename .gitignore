@@ -5,3 +5,4 @@ src/
 pkg/
 *.zst
 /main
+*.tar.gz
