@@ -84,7 +84,7 @@ echo "Getting SAML redirect URL"
 initial_response=$("${bin_dir}/openvpn" --config "${VPN_CONF}" --verb 3 \
      --proto "$VPN_PROTO" --remote "${host}" "$VPN_PORT" \
      --auth-retry none \
-     --auth-user-pass <( printf "%s\n%s\n" "N/A" "ACS::35001" ) \
+     --auth-user-pass <( printf "%s\n%s\n" "N/A" "ACS::35001" )  \
     2>&1 | grep AUTH_FAILED,CRV1)
 
 redirect_url=$(echo "$initial_response" | grep -Eo 'https://.+')

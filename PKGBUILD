@@ -1,7 +1,7 @@
 # Maintainer: Anil Kulkarni (cd+awsvpn@terminal.space)
 
 pkgname=awsvpn-saml
-pkgver=2.5.1
+pkgver=2.5.5
 pkgrel=1
 pkgdesc="Fork of openvpn configured to support conecting to an AWS vpn server with SAML authentication"
 arch=('i686' 'x86_64')
@@ -18,20 +18,21 @@ source=(
   'awsvpn'
   'LICENSE'
 )
-sha256sums=('e9582b8e9457994bd8d50012be82c23b2f465da51460c9b2360a81da0f4e06e6'
+sha256sums=('7500df4734173bce2e95b5039079119dacaff121650b2b6ca76d2dc68bdac1c5'
             'SKIP'
             '72f7d657f5525a62ff5d263e93e3ab210cbc44f5d11ed493c61e43c8e790df03'
             'f50f3a29c50fc1366e69c2c1e6a331459bfba70d76397e4f2b19e42dac8af9f1'
             'a67aaeef4ac97865d50c9c5e3e575f810637453cead738bfd2d844eda0d656c2'
-            'a31ef5e3a6e3cd27bd3428eb71e4c98aa6c2c1aeb19644f1547870b0bc24f199'
+            '3515e152ce5d7e5d8514804b0bef6af25c62e8f0baf6d8df86094291b4f5b2f7'
             '4dc942c03bc14dc28fe9cb6d66f67c6374735a965ea1291916d91cb28d7e6fe5')
 
 prepare() {
   cd "${srcdir}/openvpn-${pkgver}"
   # https://www.mail-archive.com/openvpn-devel@lists.sourceforge.net/msg19302.html
   sed -i '/^CONFIGURE_DEFINES=/s/set/env/g' configure.ac
-  patch -Np1 < "${srcdir}/aws-vpn-client/openvpn-v${pkgver}-aws.patch"
-  patch -Np1 < "${srcdir}/skip-broken-tests-${pkgver}.patch"
+  declare -A patch_name=( ["4.9.1"]="4.9.1" ["2.5.1"]="2.5.1" ["2.5.5"]="2.5.1" )
+  patch -Np1 < "${srcdir}/aws-vpn-client/openvpn-v${patch_name[$pkgver]}-aws.patch"
+  patch -Np1 < "${srcdir}/skip-broken-tests-${patch_name[$pkgver]}.patch"
   autoreconf --force --install
 }
 
