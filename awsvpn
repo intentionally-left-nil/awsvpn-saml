@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-set -ex
+set -euo pipefail
 
 bin_dir=/usr/share/awsvpn-saml/bin
 config_file="$HOME/.config/awsvpn.env"
@@ -18,7 +18,7 @@ VPN_PORT="${VPN_PORT:=443}"
 VPN_PROTO="${VPN_PROTO:=udp}"
 
 
-if [ "$1" == "configure" ]; then
+if [ "${1-}" == "configure" ]; then
   echo "Where is your .ovpn file located?: ($VPN_CONF)"
   read -r new_val
   VPN_CONF="${new_val:=$VPN_CONF}"

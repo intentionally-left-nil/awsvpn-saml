@@ -1,7 +1,7 @@
 # Maintainer: Anil Kulkarni (cd+awsvpn@terminal.space)
 
 pkgname=awsvpn-saml
-pkgver=2.4.9
+pkgver=2.5.1
 pkgrel=1
 pkgdesc="Fork of openvpn configured to support conecting to an AWS vpn server with SAML authentication"
 arch=('i686' 'x86_64')
@@ -18,12 +18,12 @@ source=(
   'awsvpn'
   'LICENSE'
 )
-sha256sums=('46b268ef88e67ca6de2e9f19943eb9e5ac8544e55f5c1f3af677298d03e64b6e'
+sha256sums=('e9582b8e9457994bd8d50012be82c23b2f465da51460c9b2360a81da0f4e06e6'
             'SKIP'
             '72f7d657f5525a62ff5d263e93e3ab210cbc44f5d11ed493c61e43c8e790df03'
             'f50f3a29c50fc1366e69c2c1e6a331459bfba70d76397e4f2b19e42dac8af9f1'
             'a67aaeef4ac97865d50c9c5e3e575f810637453cead738bfd2d844eda0d656c2'
-            'eabcb2119489170a4011db67a5ce15970f72dba563139bb2a95397680a904b44'
+            'a31ef5e3a6e3cd27bd3428eb71e4c98aa6c2c1aeb19644f1547870b0bc24f199'
             '4dc942c03bc14dc28fe9cb6d66f67c6374735a965ea1291916d91cb28d7e6fe5')
 
 prepare() {
