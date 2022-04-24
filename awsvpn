@@ -16,6 +16,7 @@ fi
 VPN_CONF="${VPN_CONF:=$HOME/aws.ovpn}"
 VPN_PORT="${VPN_PORT:=443}"
 VPN_PROTO="${VPN_PROTO:=udp}"
+VPN_HOST="${VPN_HOST:=}"
 
 
 if [ "${1-}" == "configure" ]; then
@@ -45,7 +46,7 @@ if [ "${1-}" == "configure" ]; then
 fi
 
 if [[ -z "$VPN_HOST" ]]; then
-  echo "Missing $VPN_HOST"
+  echo "Missing \$VPN_HOST"
   echo "Run awsvpn configure first"
   exit 1
 fi
